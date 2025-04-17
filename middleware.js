@@ -30,7 +30,6 @@ module.exports.validateCampground = (req,res,next) => {
 
 module.exports.isAuthor = async(req,res,next)=>{
     const {id} = req.params
-    console.log(id)
     const campground = await CampGround.findById(id);
     if(!campground.author.equals(req.user._id)){
         req.flash('error',"You don't have Permission")
