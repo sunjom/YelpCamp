@@ -1,9 +1,24 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Review = require('./review')
+
 const CampGroundSchema = new Schema({
     title:String,
-    image:String,
+    images:[
+        {
+            url:String,
+            fileName:String,
+        }
+    ],
+    geometry:{
+        type:{
+            type:String,
+            enum:['Point'],
+        },
+        coordinates:{
+            type:[Number],
+        }
+    },
     price:Number,
     description:String,
     location:String,

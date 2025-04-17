@@ -20,9 +20,14 @@ const seedDB = async () => {
             author:'67fb8e7152f34b1424073b0f',
             location:`${city[random].city} ${city[random].state}`,
             title:`${place(descriptors)} ${place(places)}`,
-            image: imageFile,
+            images: [{
+              url: 'https://firebasestorage.googleapis.com/v0/b/yelpcamp-93f7a.firebasestorage.app/o/uploads%2F0eeb68cc-251c-4cc5-8657-08803960b9ea-free-icon-address-6948631.png?alt=media&token=0689db1b-881c-47d9-aa76-e51adaf0aa91',
+              fileName: '0eeb68cc-251c-4cc5-8657-08803960b9ea-free-icon-address-6948631.png',
+              
+            }],
             description:'loremag;onerq9pgna;gjab;asf aofmoWNERFIW    fnocim  w[inro  wbr;JAWNFkl;fansfjabsfjabfweiarjrfna;jkf;jkafsfasd fksladnfga;kljgnajgpaiergnanjt g;ant]',
-            price
+            price,
+            geometry:{ type: 'Point', coordinates: [ 126.978291, 37.566679 ] }
         });
         await camp.save();
     }
