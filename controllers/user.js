@@ -29,7 +29,7 @@ module.exports.sendLogin = (req,res)=>{
     res.redirect(redirectUrl);
 }
 
-module.exports.renderLogout = (req,res)=>{
+module.exports.renderLogout = (req,res,next)=>{
     req.logout(
         function(err){
             if(err){
