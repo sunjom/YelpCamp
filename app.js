@@ -31,7 +31,7 @@ app.engine('ejs',ejsMate)
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'));
 //form 데이터를 res.body에 담아오기 위해 필요
-app.use(express.urlencoded({extends:true}))
+app.use(express.urlencoded({extended:true}))
 app.use(methodOverride('_method'))
 
 const secret = process.env.SECRET || 'thisshouldbeabettersecret!'
@@ -109,7 +109,6 @@ app.use(
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 app.use((req,res,next)=>{
-    console.log(req.query)
     res.locals.currentUser = req.user
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
