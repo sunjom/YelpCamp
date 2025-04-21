@@ -3,6 +3,10 @@ const CampGround = require('../models/campground');
 
 module.exports.makeReview = async(req,res,next) => {
     const campground = await CampGround.findById(req.params.id)
+    if (!campground) {
+        req.flash('error', 'Campground not found');
+        return res.redirect('/campgrounds'); // ✅ 응답 보내고 return
+    }
     const review = new Review(req.body.review);
     review.author = req.user._id;
     campground.reviews.push(review);
