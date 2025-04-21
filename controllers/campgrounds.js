@@ -26,7 +26,7 @@ module.exports.renderShowForm = async(req,res) =>{
         req.flash('error','can not find that campground!')
         return res.redirect('/campgrounds')
     }
-    res.render('campgrounds/show',{campground})
+    return res.render('campgrounds/show',{campground})
 }
 
 module.exports.renderUpdateForm = async(req,res) =>{
@@ -36,7 +36,7 @@ module.exports.renderUpdateForm = async(req,res) =>{
         req.flash('error','can not find that campground!')
         return res.redirect('/campgrounds')
     }
-    res.render('campgrounds/update',{campground})
+    return res.render('campgrounds/update',{campground})
 }
 
 module.exports.deleteForm = async(req,res,next)=>{
