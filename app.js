@@ -1,6 +1,7 @@
 if(process.env.NODE_ENV !== "production"){
     require('dotenv').config()
 }
+
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -11,6 +12,9 @@ const flash = require('connect-flash')
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const session = require('express-session')
+const mongoSanitize = require('express-mongo-sanitize')
+const helmet = require('helmet')
+const MongoDBStore = require('connect-mongo');
 
 const ExpressError =require('./utils/ExpressError');
 const campgroundRouter = require('./routes/campgrounds')
@@ -18,7 +22,9 @@ const reviewRouter = require('./routes/review')
 const userRouter = require('./routes/users');
 const User = require('./models/user');
 
-mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp').then((res)=>{
+//const dbUrl = process.env.DB_URL
+const dbUrl ='mongodb://127.0.0.1:27017/yelp-camp'
+mongoose.connect(dbUrl).then((res)=>{
     console.log("Connected")
 }).catch(err => console.log(err));
 
@@ -30,6 +36,10 @@ app.use(express.urlencoded({extends:true}))
 app.use(methodOverride('_method'))
 
 const sessionConfig = {
+    store:MongoDBStore.create({
+        mongoUrl:dbUrl,
+        touchAfter: 24* 60 * 60
+    }),
     secret:'thisshouldbeabettersecret!',
     resave:false,
     saveUninitialized:true,
@@ -45,10 +55,60 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()))
+app.use(mongoSanitize({
+    replaceWith:'_'
+}))
+
+const scriptSrcUrls = [
+    "https://stackpath.bootstrapcdn.com/",
+    "https://api.tiles.mapbox.com/",
+    "https://api.mapbox.com/",
+    "https://kit.fontawesome.com/",
+    "https://cdnjs.cloudflare.com/",
+    "https://cdn.jsdelivr.net",
+];
+const styleSrcUrls = [
+    "https://kit-free.fontawesome.com/",
+    "https://stackpath.bootstrapcdn.com/",
+    "https://api.mapbox.com/",
+    "https://api.tiles.mapbox.com/",
+    "https://fonts.googleapis.com/",
+    "https://use.fontawesome.com/",
+    "https://cdn.jsdelivr.net/",
+];
+const connectSrcUrls = [
+    "https://api.mapbox.com/",
+    "https://a.tiles.mapbox.com/",
+    "https://b.tiles.mapbox.com/",
+    "https://events.mapbox.com/",
+];
+const fontSrcUrls = [];
+
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+                "https://firebasestorage.googleapis.com/v0/b/yelpcamp-93f7a.firebasestorage.app/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
+                "https://images.unsplash.com/",
+            ],
+            fontSrc: ["'self'", ...fontSrcUrls],
+        },
+    })
+);
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 app.use((req,res,next)=>{
+    console.log(req.query)
     res.locals.currentUser = req.user
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
@@ -59,7 +119,9 @@ app.use('/',userRouter);
 app.use('/campgrounds',campgroundRouter);
 app.use('/campgrounds/:id/reviews',reviewRouter)
 app.use(express.static('public'))
-
+app.get('/',(req,res,next)=>{
+    res.render('home')
+})
 
 app.all('*',(req,res,next) => {
     next(new ExpressError('Page Not Found',404));

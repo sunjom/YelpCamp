@@ -27,7 +27,10 @@ const seedDB = async () => {
             }],
             description:'loremag;onerq9pgna;gjab;asf aofmoWNERFIW    fnocim  w[inro  wbr;JAWNFkl;fansfjabsfjabfweiarjrfna;jkf;jkafsfasd fksladnfga;kljgnajgpaiergnanjt g;ant]',
             price,
-            geometry:{ type: 'Point', coordinates: [ 126.978291, 37.566679 ] }
+            geometry:{
+                type: 'Point', 
+                coordinates: [ city[random].longitude, city[random].latitude ] 
+            }
         });
         await camp.save();
     }
