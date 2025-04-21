@@ -23,6 +23,7 @@ const userRouter = require('./routes/users');
 const User = require('./models/user');
 
 const dbUrl =process.env.DB_URL || 'mongodb://127.0.0.1:27017/yelp-camp'
+
 mongoose.connect(dbUrl).then((res)=>{
     console.log("Connected")
 }).catch(err => console.log(err));
@@ -52,6 +53,7 @@ const sessionConfig = {
 }
 app.use(session(sessionConfig))
 app.use(flash());
+app.use(helmet());
 
 app.use(passport.initialize());
 app.use(passport.session());
