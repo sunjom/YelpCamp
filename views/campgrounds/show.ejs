@@ -100,7 +100,7 @@
 
 <script>
     const mapToken = '<%-process.env.MAPBOX_TOKEN%>'
-    const campgroundLoc = JSON.parse('<%-JSON.stringify(campground)%>')
+    const campgroundLoc = <%- JSON.stringify(campground) %>;
     console.log(campgroundLoc.geometry.coordinates)
 </script>
 
