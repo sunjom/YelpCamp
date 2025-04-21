@@ -22,8 +22,7 @@ const reviewRouter = require('./routes/review')
 const userRouter = require('./routes/users');
 const User = require('./models/user');
 
-//const dbUrl = process.env.DB_URL
-const dbUrl ='mongodb://127.0.0.1:27017/yelp-camp'
+const dbUrl =process.env.DB_URL || 'mongodb://127.0.0.1:27017/yelp-camp'
 mongoose.connect(dbUrl).then((res)=>{
     console.log("Connected")
 }).catch(err => console.log(err));
@@ -35,12 +34,14 @@ app.set('views',path.join(__dirname,'views'));
 app.use(express.urlencoded({extends:true}))
 app.use(methodOverride('_method'))
 
+const secret = process.env.SECRET || 'thisshouldbeabettersecret!'
+
 const sessionConfig = {
     store:MongoDBStore.create({
         mongoUrl:dbUrl,
         touchAfter: 24* 60 * 60
     }),
-    secret:'thisshouldbeabettersecret!',
+    secret,
     resave:false,
     saveUninitialized:true,
     cookie:{
