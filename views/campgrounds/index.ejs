@@ -5,19 +5,25 @@
     <a href="/campgrounds/new">Add Campground</a>
 </div>
     <% for(let campground of campgrounds){ %>
-        <div class="card mb-3">
+        <div class="card mb-5">
             <div class="row">
                 <div class="col-md-4">
                     <% if(campground.images.length) {%>
-                        <img class="img-fluid" alt="" src="<%=campground.images[0].url %>"/>
+                        <img class="img-fluid" style="width:500px; height: 300px; object-fit: fill;" alt="" src="<%=campground.images[0].url %>"/>
                     <% }else{%>
-                        <img class="img-fluid" alt="" src="https://firebasestorage.googleapis.com/v0/b/yelpcamp-93f7a.firebasestorage.app/o/uploads%2Fpngwing.com.png?alt=media&token=266a8d92-80bb-40b5-815b-ae28ab4b1231"/>
+                        <img class="img-fluid" style="width:500px; height: 300px; object-fit: fill;" alt="" src="https://firebasestorage.googleapis.com/v0/b/yelpcamp-93f7a.firebasestorage.app/o/uploads%2Fpngwing.com.png?alt=media&token=266a8d92-80bb-40b5-815b-ae28ab4b1231"/>
                     <% } %>
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
                         <h5 class="card-title"><%= campground.title %></h5>
-                        <p class="card-text"><%=campground.description %></p>
+                        <p class="card-text" style="
+                            overflow: hidden; 
+                            text-overflow: ellipsis;
+                            display: -webkit-box; 
+                            -webkit-line-clamp: 5; 
+                            -webkit-box-orient: vertical;
+                            "><%= campground.description %></p>
                         <p class="card-text">
                             <small class="text-muted"><%=campground.location %></small>
                         </p>
