@@ -1,4 +1,15 @@
 <%layout('layouts/boilerplate')%>
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+      언어
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <div class="dropdown-item" id="button-en">English</div>
+        <div class="dropdown-item" id="button-ko">한국어</div>
+        <div class="dropdown-item" id="button-ja">日本語</div>
+    </div>
+</div>
+<div id="search-box-container"></div>
 <div id="cluster-map"></div>
 <h1>All Campgrounds</h1>
 <div>

@@ -1,18 +1,14 @@
 mapboxgl.accessToken = mapToken;
+
 const map = new mapboxgl.Map({
     container: 'cluster-map',
-    // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
     style: 'mapbox://styles/mapbox/dark-v11',
     center: [-103.5917, 40.6699],
     zoom: 3
 });
 
-console.log(campgroundLoc);
-
 map.on('load', () => {
-    // Add a new source from our GeoJSON data and
-    // set the 'cluster' option to true. GL-JS will
-    // add the point_count property to your source data.
+    
     map.addSource('campground', {
         type: 'geojson',
         // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
@@ -22,6 +18,14 @@ map.on('load', () => {
         clusterMaxZoom: 14, // Max zoom to cluster points on
         clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
     });
+
+    map.addControl(
+        new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            mapboxgl: mapboxgl,
+            placeholder:'검색',
+        })
+    )
 
     map.addLayer({
         id: 'clusters',
@@ -130,3 +134,12 @@ map.on('load', () => {
     });
     map.addControl(new mapboxgl.NavigationControl());
 });
+
+document.querySelector('.dropdown-menu').addEventListener('click',(e)=>{
+    const language = e.target.id.substr('button-'.length);
+    
+    map.setLayoutProperty('country-label','text-field',[
+        'get',
+        `name_${language}`
+    ])
+})

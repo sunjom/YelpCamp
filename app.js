@@ -94,6 +94,12 @@ app.use((req,res,next)=>{
     res.locals.currentUser = req.user
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
+    
+    const ext = req.path.split('.').pop();
+    const exclude = ['css','js']
+    if (!exclude.includes(ext)) {
+        res.locals.urlPath = req.path;
+    }
     next();
 })
 
