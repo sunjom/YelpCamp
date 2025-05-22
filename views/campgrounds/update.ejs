@@ -2,45 +2,59 @@
 <div class="col-6 offset-3 mb-5">
     <div class="card shadow">
         <div class="card-body">
-            <h1 class="text-center">Edit Campground</h1>
+            <h1 class="text-center">CampGround 수정</h1>
                 <form action="/campgrounds/<%=campground._id %>?_method=PUT"  method="POST" novalidate class="validated-form" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <label class="form-label" for="title">Title</label>
+                        <label class="form-label" for="title">제목</label>
                         <input class="form-control" type="text" id="title" name="campground[title]" placeholder="input Title" value="<%=campground.title%>" required/>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="location">location</label>
+                        <label class="form-label" for="location">위치</label>
                         <input class="form-control" type="text" id="location" name="campground[location]" placeholder="input Location"value="<%=campground.location%>" required/>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="image">location</label>
+                        <label class="form-label" for="image">이미지 추가</label>
                         <input type="file" name="image" id="" multiple/>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="price">Price</label>
+                        <label class="form-label" for="price">가격</label>
                         <div class="input-group">
-                            <span class="input-group-text" id="price-label">$</span>
+                            <select class="form-select" name="campground[unit]" id="price-label" style="flex:none;width: 100px;">
+                                <option value="₩" <%=campground.unit==="₩" ? 'selected' : '' %>>₩</option>
+                                <option value="$" <%=campground.unit==="$" ? 'selected' : '' %>>$</option>
+                                <option value="元" <%=campground.unit==="元" ? 'selected' : '' %>>元</option>
+                                <option value="¥" <%=campground.unit==="¥" ? 'selected' : '' %>>¥</option>
+                                <option value="€" <%=campground.unit==="€" ? 'selected' : '' %>>€</option>
+                                <option value="£" <%=campground.unit==="£" ? 'selected' : '' %>>£</option>
+                            </select>
                             <input class="form-control" type="text" id="price" name="campground[price]" placeholder="0" aria-label="price" aria-describedby="price-label" value="<%=campground.price%>" required/>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="description">description</label>
+                        <label class="form-label" for="description">설명</label>
                         <textarea class="form-control" id="description" name="campground[description]" placeholder="input Description" required><%=campground.description%></textarea>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3 d-flex  flex-column">
                         <% campground.images.forEach((image,i) => { %>
-                            <img src="<%= image.url %>" class="img-thumbnail w-25 h-25"/>
-                            <div class="form-check-inline">
-                                <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=image.fileName%>"/>
+                            <div>
+                                <img src="<%= image.url %>" class="img-thumbnail w-25 h-25"/>
+                                <div class="form-check-inline">
+                                    <input 
+                                    type="checkbox"
+                                    id="image-<%=i%>" 
+                                    name="deleteImages[]" 
+                                    value="<%=image.fileName%>"
+                                    />
+                                </div>
+                                <label for="image-<%=i%>" >삭제하시겠습니까?</label>
                             </div>
-                            <label for="image-<%=i%>">Delete?</label>
                         <%}) %>
                     </div>
                     <div class="mb-3">
-                        <button class="btn btn-success" type="submit">Update</button>
+                        <button class="btn btn-success" type="submit">수정 완료</button>
                     </div>
                 </form>
-                <a href="/campgrounds/<%= campground._id %>">Back to Campground</a>
+                <a href="/campgrounds/<%= campground._id %>">이전 캠핑장으로 이동</a>
         </div>
     </div>
 </div>

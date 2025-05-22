@@ -1,48 +1,55 @@
 <%layout('layouts/boilerplate')%>
 <div class="row">
-    <h1 class="text-center">New Campground</h1>
+    <h1 class="text-center">New CampGround</h1>
     <div class="col-6 offset-3 my-5">
         <div class="card shadow">
             <div class="card-body">
                 <form action="/campgrounds" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <label class="form-label" for="title">Title</label>
+                        <label class="form-label" for="title">제목</label>
                         <input class="form-control" type="text" id="title" name="campground[title]" placeholder="input Title" required/>
                         <div class="valid-feedback">
-                            Looks Good!
+                            좋습니다!
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="location">location</label>
+                        <label class="form-label" for="location">위치</label>
                         <input class="form-control" type="text" id="location" name="campground[location]" placeholder="input Location" required/>
                         <div class="valid-feedback">
-                            Looks Good!
+                            좋습니다!
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="price">Price</label>
+                        <label class="form-label" for="price">가격</label>
                         <div class="input-group">
-                            <span class="input-group-text" id="price-label">$</span>
+                            <select class="form-select" name="campground[unit]" id="price-label" style="flex:none;width: 100px;">
+                                <option value="₩" selected>₩</option>
+                                <option value="$">$</option>
+                                <option value="元">元</option>
+                                <option value="¥">¥</option>
+                                <option value="€">€</option>
+                                <option value="£">£</option>
+                            </select>
+                            <!-- <option class="input-group-text" id="price-label">$</span> -->
                             <input class="form-control" type="text" id="price" name="campground[price]" placeholder="0" aria-label="price" aria-describedby="price-label" required/>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="description">description</label>
+                        <label class="form-label" for="description">설명</label>
                         <textarea class="form-control" id="description" name="campground[description]" placeholder="input Description" required></textarea>
                         <div class="valid-feedback">
-                            Looks Good!
+                            좋습니다!
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="formFileMultiple" class="form-label">Multiple files input example</label>
+                        <label for="formFileMultiple" class="form-label">이미지 추가</label>
                         <input class="form-control" type="file" id="formFileMultiple" name="image" multiple>
                     </div>
                     
-                    <div class="mb-3">
-                        <button class="btn btn-success" type="submit">Submit</button>
+                    <div class="my-3 text-center">
+                        <button class="w-50 my-3 btn btn-success" type="submit">제출</button>
                     </div>
                 </form> 
-                <a href="/campgrounds">All Campgrounds</a>
             </div>
         </div>
     </div>

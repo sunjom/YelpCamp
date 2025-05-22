@@ -23,6 +23,7 @@ const CampGroundSchema = new Schema({
     price:Number,
     description:String,
     location:String,
+    unit:String,
     author:{
         type:Schema.Types.ObjectId,
         ref:'User'

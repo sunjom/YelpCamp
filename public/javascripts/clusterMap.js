@@ -142,4 +142,6 @@ document.querySelector('.dropdown-menu').addEventListener('click',(e)=>{
         'get',
         `name_${language}`
     ])
+    
+    document.querySelector('#dropdownMenuButton').innerHTML = e.target.innerHTML;
 })

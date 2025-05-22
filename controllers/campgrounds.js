@@ -7,11 +7,11 @@ const geocoder = mbxGeocoding({accessToken:mapBoxToken});
 
 module.exports.index = async(req,res) => {
     const campgrounds = await CampGround.find({});
-    res.render('campgrounds/index',{campgrounds})
+    res.render('campgrounds/index',{campgrounds});
 }
 
 module.exports.renderNewForm = async(req,res)=>{
-    res.render('campgrounds/make')
+    res.render('campgrounds/make');
 }
 
 module.exports.renderShowForm = async(req,res) =>{
@@ -21,20 +21,20 @@ module.exports.renderShowForm = async(req,res) =>{
             path:'author'
         }
     }).populate('author');
-    
+    console.log(campground);
     if(!campground){
-        req.flash('error','can not find that campground!')
-        return res.redirect('/campgrounds')
+        req.flash('error','can not find that campground!');
+        return res.redirect('/campgrounds');
     }
-    return res.render('campgrounds/show',{campground})
+    return res.render('campgrounds/show',{campground});
 }
 
 module.exports.renderUpdateForm = async(req,res) =>{
     const {id} = req.params;
     const campground = await CampGround.findById(id);
     if(!campground){
-        req.flash('error','can not find that campground!')
-        return res.redirect('/campgrounds')
+        req.flash('error','can not find that campground!');
+        return res.redirect('/campgrounds');
     }
     return res.render('campgrounds/update',{campground})
 }
