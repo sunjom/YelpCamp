@@ -21,7 +21,7 @@ module.exports.renderShowForm = async(req,res) =>{
             path:'author'
         }
     }).populate('author');
-    console.log(campground);
+    
     if(!campground){
         req.flash('error','can not find that campground!');
         return res.redirect('/campgrounds');
@@ -56,7 +56,7 @@ module.exports.makeForm =async(req,res,next) =>{
     campground.geometry = geoData.body.features[0].geometry
     campground.images = urls
     campground.author = req.user._id;
-    console.log(campground)
+    
     await campground.save()
     req.flash('success','Successfully made a new campground!')
     res.redirect(`/campgrounds/${campground._id}`)
@@ -64,7 +64,7 @@ module.exports.makeForm =async(req,res,next) =>{
 
 module.exports.updateForm = async(req,res) =>{
     const {campground,deleteImages} = req.body
-    console.log(deleteImages);
+    
     const data = await CampGround.findByIdAndUpdate(req.params.id,campground);
     if(req.files.length > 0){
         const urls = await Files.uploadFiles(req.files)

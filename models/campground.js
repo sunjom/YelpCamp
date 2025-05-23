@@ -49,7 +49,7 @@ CampGroundSchema.post('findOneAndDelete',async function(doc){
             _id:{$in:doc.reviews}
         })
     }
-    console.log(doc);
+    
 })
 
 module.exports = mongoose.model('Campground',CampGroundSchema);
